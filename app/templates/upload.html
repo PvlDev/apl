@@ -1,0 +1,65 @@
+<div class="row">
+    <div class="col-lg-12 margin-tb">
+            <h1>Upload new CSV file</h1>
+    </div>
+
+</div>
+
+<div ng-controller="fileUploadCtrl">
+
+    <div class="input-file-container">
+        <input class="input-file" id="my-file" type="file" accept="text/csv, application/csv" file-input="files" onchange="checkCSVField(this);" >
+        <label tabindex="0" for="my-file" class="input-file-trigger">Select a file...</label>
+    </div>
+    <p class="file-return"></p>
+
+    <br>
+
+    <input type="checkbox" id="toggle-one" data-toggle="toggle" data-on="Overwrite data" data-off="Append new data" data-onstyle="warning" data-offstyle="success">
+
+
+    <br>
+    <br>
+
+    <button ng-click="uploadFile()" class="btn btn-primary btn-lg">Upload</button>
+
+    <div id="messageAjax"></div>
+</div>
+<script>
+    $(function() {
+        $('#toggle-one').bootstrapToggle();
+    })
+    document.querySelector("html").classList.add('js');
+
+    var fileInput  = document.querySelector( ".input-file" ),
+        button     = document.querySelector( ".input-file-trigger" ),
+        the_return = document.querySelector(".file-return");
+
+    button.addEventListener( "keydown", function( event ) {
+        if ( event.keyCode == 13 || event.keyCode == 32 ) {
+            fileInput.focus();
+        }
+    });
+    button.addEventListener( "click", function( event ) {
+        fileInput.focus();
+        return false;
+    });
+    fileInput.addEventListener( "change", function( event ) {
+        the_return.innerHTML = this.value;
+    });
+
+    function checkCSVField(sender) {
+        var validExts = new Array(".csv");
+        var fileExt = sender.value;
+        fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+        if (validExts.indexOf(fileExt) < 0) {
+            alert("Invalid file selected, valid files are of " +
+                validExts.toString() + " types.");
+            sender.value = "";
+
+            return false;
+        }
+        else return true;
+    }
+</script>
+
